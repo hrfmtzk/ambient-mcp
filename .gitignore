@@ -1,0 +1,31 @@
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python bytecode/cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+.env
+
+# Test / type check / lint caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Coverage
+.coverage
+htmlcov/
+coverage.xml

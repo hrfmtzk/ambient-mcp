@@ -1,0 +1,62 @@
+[project]
+name = "ambientdata-mcp"
+version = "0.1.0"
+description = "MCP for AmbientData"
+authors = [{ name = "Hirofumi Tsuzuki", email = "hrfm.tsuzuki@gmail.com" }]
+requires-python = ">=3.14,<4.0"
+dependencies = [
+    "mcp[cli] (>=1.26.0,<2.0.0)",
+    "ambient @ git+https://github.com/AmbientDataInc/ambient-python-lib.git",
+]
+
+[project.scripts]
+ambientdata-mcp = "ambientdata_mcp.server:main"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "black (>=26.1.0,<27.0.0)",
+    "ruff (>=0.14.14,<0.15.0)",
+    "isort (>=7.0.0,<8.0.0)",
+    "mypy (>=1.19.1,<2.0.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
+]
+
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.black]
+line-length = 88
+skip-string-normalization = false
+
+[tool.isort]
+profile = "black"
+line_length = 88
+src_paths = ["src", "tests"]
+known_first_party = ["ambientdata_mcp"]
+
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+extend-ignore = ["E203"]
+per-file-ignores = { "__init__.py" = ["F401"] }
+
+[tool.mypy]
+python_version = "3.14"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+no_implicit_optional = true
+disallow_untyped_defs = true
+check_untyped_defs = true
