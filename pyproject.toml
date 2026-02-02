@@ -6,7 +6,8 @@ authors = [{ name = "Hirofumi Tsuzuki", email = "hrfm.tsuzuki@gmail.com" }]
 requires-python = ">=3.14,<4.0"
 dependencies = [
     "mcp[cli] (>=1.26.0,<2.0.0)",
-    "ambient @ git+https://github.com/AmbientDataInc/ambient-python-lib.git",
+    "httpx (>=0.28.1,<0.29.0)",
+    "pydantic (>=2.12.5,<3.0.0)",
 ]
 
 [project.scripts]
