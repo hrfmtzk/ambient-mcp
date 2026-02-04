@@ -3,7 +3,7 @@ name = "ambientdata-mcp"
 version = "0.1.0"
 description = "MCP for AmbientData"
 authors = [{ name = "Hirofumi Tsuzuki", email = "hrfm.tsuzuki@gmail.com" }]
-requires-python = ">=3.14,<4.0"
+requires-python = ">=3.13,<4.0"
 dependencies = [
     "mcp[cli] (>=1.26.0,<2.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
@@ -61,7 +61,7 @@ extend-ignore = ["E203"]
 per-file-ignores = { "__init__.py" = ["F401"] }
 
 [tool.mypy]
-python_version = "3.14"
+python_version = "3.13"
 ignore_missing_imports = true
 warn_unused_ignores = true
 warn_redundant_casts = true
