@@ -60,7 +60,7 @@ GetDataResult = Union[GetDataOutput, GetDataErrorOutput]
 
 
 class GetDataInput(BaseModel):
-    read_key: str = Field(..., description="AmbientData ReadKey")
+    read_key: str = Field(..., description="Ambient Read Key")
     channel_id: int = Field(..., ge=1, description="Target channel ID")
     from_: Optional[str] = Field(
         None,

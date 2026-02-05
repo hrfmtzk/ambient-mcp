@@ -24,7 +24,7 @@ async def get_data(
     params: GetDataInput,
     ctx: Context[ServerSession, None],
 ) -> GetDataResult:
-    """Retrieve AmbientData items by time range or latest count."""
+    """Retrieve Ambient items by time range or latest count."""
     await ctx.info(f"get_data called with {params}")
 
     try:
