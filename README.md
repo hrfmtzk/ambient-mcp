@@ -2,10 +2,10 @@
 
 English | [日本語](README.ja.md)
 
-This is an **MCP (Model Context Protocol) server** for retrieving data from AmbientData.
+This is an **MCP (Model Context Protocol) server** for retrieving data from [Ambient](https://ambidata.io/).
 You can call the `get_data` tool from your MCP client to fetch the latest values or data within a time range.
 
-> Note: This server uses the AmbientData API v2.
+> Note: This server uses the Ambient API v2.
 
 ## Quick Start
 
@@ -32,7 +32,7 @@ Below is a typical MCP client configuration. Use `uvx` as the command and pass t
 
 ## Prerequisites
 
-Prepare the following information from AmbientData:
+Prepare the following information from Ambient:
 
 - **Channel ID**
 - **Read Key**
@@ -41,7 +41,7 @@ Prepare the following information from AmbientData:
 
 ### `get_data`
 
-Fetch AmbientData items using one of the following approaches:
+Fetch Ambient items using one of the following approaches:
 
 - **Time range**: `from` and `to`
 - **Latest items**: `n` and `skip` (`skip` is optional)
@@ -50,7 +50,7 @@ Fetch AmbientData items using one of the following approaches:
 
 | Name         | Type              | Required    | Description                                     |
 | ------------ | ----------------- | ----------- | ----------------------------------------------- |
-| `read_key`   | string            | ✅          | AmbientData ReadKey                             |
+| `read_key`   | string            | ✅          | Ambient Read Key                                |
 | `channel_id` | number            | ✅          | Target Channel ID                               |
 | `from`       | string (RFC 3339) | Conditional | Start time (use with `to`)                      |
 | `to`         | string (RFC 3339) | Conditional | End time (use with `from`)                      |
