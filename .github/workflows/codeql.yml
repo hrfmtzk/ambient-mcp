@@ -23,6 +23,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: python
+          source-root: ${{ github.workspace }}
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
