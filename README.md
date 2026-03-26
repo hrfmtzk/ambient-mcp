@@ -128,20 +128,19 @@ Possible `category` values:
 ### Setup
 
 ```sh
-poetry install
+uv sync
 ```
 
 ### Tests
 
 ```sh
-poetry run pytest
+uv run pytest
 ```
 
 ### Lint / Format
 
 ```sh
-poetry run ruff check src tests
-poetry run black src tests
-poetry run isort src tests
-poetry run mypy src tests
+uv run ruff check src tests
+uv run ruff format src tests
+uv run mypy src tests
 ```

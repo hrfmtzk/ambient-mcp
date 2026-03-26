@@ -128,20 +128,19 @@ Ambient のデータ取得を行います。以下のいずれかの指定方法
 ### セットアップ
 
 ```sh
-poetry install
+uv sync
 ```
 
 ### テスト
 
 ```sh
-poetry run pytest
+uv run pytest
 ```
 
 ### 静的解析 / フォーマット
 
 ```sh
-poetry run ruff check src tests
-poetry run black src tests
-poetry run isort src tests
-poetry run mypy src tests
+uv run ruff check src tests
+uv run ruff format src tests
+uv run mypy src tests
 ```
