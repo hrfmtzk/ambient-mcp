@@ -18,7 +18,7 @@ jobs:
           python-version: "3.14"
 
       - name: Export requirements
-        run: uv export --no-dev --format requirements-txt -o requirements.txt
+        run: uv export --no-dev --no-emit-project --format requirements-txt -o requirements.txt
 
       - name: Run audit
         run: uvx pip-audit -r requirements.txt
