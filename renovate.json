@@ -1,0 +1,38 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Asia/Tokyo",
+  "schedule": ["before 9am on Monday"],
+  "minimumReleaseAge": "3 days",
+  "packageRules": [
+    {
+      "description": "Production dependencies group",
+      "matchDepTypes": ["dependencies"],
+      "groupName": "production-dependencies",
+      "commitMessagePrefix": "chore(deps):",
+      "labels": ["dependencies"]
+    },
+    {
+      "description": "Development dependencies group",
+      "matchDepTypes": ["devDependencies", "dependency-groups"],
+      "groupName": "development-dependencies",
+      "commitMessagePrefix": "chore(deps):",
+      "labels": ["dependencies"]
+    },
+    {
+      "description": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions",
+      "commitMessagePrefix": "chore(deps):",
+      "labels": ["dependencies"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "Security updates bypass cooldown",
+      "matchCategories": ["security"],
+      "minimumReleaseAge": "0 days"
+    }
+  ],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2
+}
