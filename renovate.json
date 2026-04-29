@@ -33,6 +33,7 @@
       "minimumReleaseAge": "0 days"
     }
   ],
+  "osvVulnerabilityAlerts": true,
   "prConcurrentLimit": 5,
   "prHourlyLimit": 2
 }
