@@ -34,6 +34,9 @@
     }
   ],
   "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "schedule": ["at any time"]
+  },
   "prConcurrentLimit": 5,
   "prHourlyLimit": 2
 }
