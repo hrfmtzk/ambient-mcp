@@ -1,5 +1,7 @@
 import asyncio
+from typing import Literal
 
+import click
 from mcp.server.fastmcp import Context, FastMCP
 from mcp.server.session import ServerSession
 
@@ -72,5 +74,35 @@ async def get_data(
         )
 
 
-def main() -> None:
-    mcp.run()
+@click.command()
+@click.option(
+    "--transport",
+    envvar="MCP_TRANSPORT",
+    type=click.Choice(["stdio", "sse", "streamable-http"]),
+    default="stdio",
+    show_default=True,
+    help="Transport protocol to use.",
+)
+@click.option(
+    "--host",
+    envvar="MCP_HOST",
+    default="127.0.0.1",
+    show_default=True,
+    help="Host to bind (HTTP transports only).",
+)
+@click.option(
+    "--port",
+    envvar="MCP_PORT",
+    default=8000,
+    show_default=True,
+    type=int,
+    help="Port to listen on (HTTP transports only).",
+)
+def main(
+    transport: Literal["stdio", "sse", "streamable-http"],
+    host: str,
+    port: int,
+) -> None:
+    mcp.settings.host = host
+    mcp.settings.port = port
+    mcp.run(transport=transport)

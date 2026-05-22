@@ -15,9 +15,31 @@ PyPI へは未公開のため、`uvx` に Git リポジトリを指定して起�
 uvx git+https://github.com/hrfmtzk/ambient-mcp
 ```
 
+## トランスポート設定
+
+`--transport`（または環境変数 `MCP_TRANSPORT`）で使用するトランスポートを選択できます。
+
+| トランスポート | 説明 | デフォルト |
+| --- | --- | --- |
+| `stdio` | 標準入出力 — MCP クライアントがサブプロセスとして起動する場合に使用 | ✅ |
+| `streamable-http` | Streamable HTTP — ネットワーク経由で公開する場合に推奨 | |
+| `sse` | Server-Sent Events — 旧来の HTTP トランスポート | |
+
+`sse` / `streamable-http` では `--host`（環境変数: `MCP_HOST`、デフォルト: `127.0.0.1`）と `--port`（環境変数: `MCP_PORT`、デフォルト: `8000`）も設定できます。
+
+```sh
+# streamable-http で起動し、全インターフェースにバインド
+ambient-mcp --transport streamable-http --host 0.0.0.0 --port 8000
+
+# 環境変数で同様に指定
+MCP_TRANSPORT=streamable-http MCP_HOST=0.0.0.0 MCP_PORT=8000 ambient-mcp
+```
+
 ## MCP クライアント設定例
 
-主要な MCP クライアントの設定例です。`command` は `uvx`、`args` には Git リポジトリを指定します。
+### stdio（サブプロセス）
+
+`command` は `uvx`、`args` には Git リポジトリを指定します。
 
 ```json
 {
@@ -25,6 +47,34 @@ uvx git+https://github.com/hrfmtzk/ambient-mcp
     "ambient": {
       "command": "uvx",
       "args": ["git+https://github.com/hrfmtzk/ambient-mcp"]
+    }
+  }
+}
+```
+
+### streamable-http（ネットワーク）
+
+サーバーを別途起動したうえで、MCP クライアントの URL に指定します。
+
+```json
+{
+  "mcpServers": {
+    "ambient": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:8000/mcp"
+    }
+  }
+}
+```
+
+### sse（ネットワーク・旧来方式）
+
+```json
+{
+  "mcpServers": {
+    "ambient": {
+      "type": "sse",
+      "url": "http://127.0.0.1:8000/sse"
     }
   }
 }
