@@ -95,7 +95,7 @@ async def get_data(
     envvar="MCP_PORT",
     default=8000,
     show_default=True,
-    type=int,
+    type=click.IntRange(1, 65535),
     help="Port to listen on (HTTP transports only).",
 )
 def main(

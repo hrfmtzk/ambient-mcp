@@ -1,3 +1,5 @@
+from collections.abc import Generator
+
 import pytest
 from click.testing import CliRunner
 from pytest_mock import MockFixture
@@ -111,6 +113,14 @@ async def test_get_data_returns_validation_error_on_exception(
 
 
 class TestMain:
+    @pytest.fixture(autouse=True)
+    def _restore_mcp_settings(self) -> Generator[None, None, None]:
+        original_host = mcp.settings.host
+        original_port = mcp.settings.port
+        yield
+        mcp.settings.host = original_host
+        mcp.settings.port = original_port
+
     def test_defaults(self, mocker: MockFixture) -> None:
         mock_run = mocker.patch.object(mcp, "run")
         result = CliRunner().invoke(main, [])
