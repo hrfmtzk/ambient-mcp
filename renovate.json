@@ -37,6 +37,9 @@
   "vulnerabilityAlerts": {
     "schedule": ["at any time"]
   },
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "prConcurrentLimit": 5,
   "prHourlyLimit": 2
 }
