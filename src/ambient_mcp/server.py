@@ -53,11 +53,11 @@ async def get_data(
 
         props_payload = props_response.payload or {}
         if not isinstance(props_payload, dict):
-            raise ValueError("Ambient API properties payload is invalid.")
+            raise TypeError("Ambient API properties payload is invalid.")
 
         data_payload_raw = data_response.payload or []
         if not isinstance(data_payload_raw, list):
-            raise ValueError("Ambient API response body is not a list.")
+            raise TypeError("Ambient API response body is not a list.")
         if not all(isinstance(item, dict) for item in data_payload_raw):
             raise ValueError("Ambient API response items are invalid.")
         data_payload = data_payload_raw
@@ -66,7 +66,7 @@ async def get_data(
             field_labels=extract_field_labels(props_payload),
             items=[build_data_item(item) for item in data_payload],
         )
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         await ctx.error(f"get_data error: {exc}")
         return GetDataErrorOutput(
             category="validation",

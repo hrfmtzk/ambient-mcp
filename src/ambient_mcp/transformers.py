@@ -26,7 +26,7 @@ def map_error_category(status_code: int) -> str:
 def build_data_item(payload: dict[str, object]) -> DataItem:
     created = payload.get("created")
     if not isinstance(created, str):
-        raise ValueError("Ambient API response item is missing created.")
+        raise TypeError("Ambient API response item is missing created.")
 
     def _as_number(value: object) -> Number | None:
         if value is None:
@@ -81,11 +81,10 @@ def _map_error_category(status_code: int) -> str:
 
 
 def _format_error_message(response: ApiResponse) -> str:
-    if response.payload:
-        if isinstance(response.payload, dict):
-            message = response.payload.get("message")
-            if message:
-                return str(message)
+    if response.payload and isinstance(response.payload, dict):
+        message = response.payload.get("message")
+        if message:
+            return str(message)
     if response.raw_body:
         return response.raw_body
     return f"Ambient API error (status={response.status_code})."
