@@ -114,7 +114,7 @@ async def test_get_data_returns_validation_error_on_exception(
 
 class TestMain:
     @pytest.fixture(autouse=True)
-    def _restore_mcp_settings(self) -> Generator[None, None, None]:
+    def _restore_mcp_settings(self) -> Generator[None]:
         original_host = mcp.settings.host
         original_port = mcp.settings.port
         yield

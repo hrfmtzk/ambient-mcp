@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 
@@ -10,7 +10,7 @@ import httpx
 @dataclass(slots=True)
 class ApiResponse:
     status_code: int
-    payload: Optional[Any]
+    payload: Any | None
     raw_body: str
 
 
@@ -41,10 +41,10 @@ class AmbientClient:
     async def get_data(
         self,
         *,
-        from_: Optional[str],
-        to: Optional[str],
-        n: Optional[int],
-        skip: Optional[int],
+        from_: str | None,
+        to: str | None,
+        n: int | None,
+        skip: int | None,
     ) -> ApiResponse:
         url = f"{self.base_url}/channels/{self.channel_id}/data"
         params: dict[str, Any] = {"readKey": self.read_key}
@@ -64,7 +64,7 @@ class AmbientClient:
             response = await client.get(url, params=params)
 
         raw_body = response.text
-        payload: Optional[dict[str, Any]] = None
+        payload: dict[str, Any] | None = None
         if raw_body:
             try:
                 payload = json.loads(raw_body)

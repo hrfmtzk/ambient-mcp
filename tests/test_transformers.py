@@ -25,7 +25,7 @@ def test_build_data_item_accepts_numeric_and_none() -> None:
 
 
 def test_build_data_item_requires_created() -> None:
-    with pytest.raises(ValueError, match="missing created"):
+    with pytest.raises(TypeError, match="missing created"):
         build_data_item({"d1": 1})
 
 

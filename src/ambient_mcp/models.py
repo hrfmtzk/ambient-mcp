@@ -1,19 +1,17 @@
-from typing import Optional, Union
-
 from pydantic import BaseModel, Field, model_validator
 
-Number = Union[int, float]
+Number = int | float
 
 
 class FieldLabels(BaseModel):
-    d1: Optional[str] = None
-    d2: Optional[str] = None
-    d3: Optional[str] = None
-    d4: Optional[str] = None
-    d5: Optional[str] = None
-    d6: Optional[str] = None
-    d7: Optional[str] = None
-    d8: Optional[str] = None
+    d1: str | None = None
+    d2: str | None = None
+    d3: str | None = None
+    d4: str | None = None
+    d5: str | None = None
+    d6: str | None = None
+    d7: str | None = None
+    d8: str | None = None
 
     class Config:
         extra = "forbid"
@@ -21,14 +19,14 @@ class FieldLabels(BaseModel):
 
 class DataItem(BaseModel):
     created: str = Field(..., description="UTC timestamp (RFC 3339)")
-    d1: Optional[Number] = None
-    d2: Optional[Number] = None
-    d3: Optional[Number] = None
-    d4: Optional[Number] = None
-    d5: Optional[Number] = None
-    d6: Optional[Number] = None
-    d7: Optional[Number] = None
-    d8: Optional[Number] = None
+    d1: Number | None = None
+    d2: Number | None = None
+    d3: Number | None = None
+    d4: Number | None = None
+    d5: Number | None = None
+    d6: Number | None = None
+    d7: Number | None = None
+    d8: Number | None = None
 
     class Config:
         extra = "forbid"
@@ -56,33 +54,33 @@ class GetDataErrorOutput(BaseModel):
         extra = "forbid"
 
 
-GetDataResult = Union[GetDataOutput, GetDataErrorOutput]
+GetDataResult = GetDataOutput | GetDataErrorOutput
 
 
 class GetDataInput(BaseModel):
     read_key: str = Field(..., description="Ambient Read Key")
     channel_id: int = Field(..., ge=1, description="Target channel ID")
-    from_: Optional[str] = Field(
+    from_: str | None = Field(
         None,
         alias="from",
         description="Start time (RFC 3339)",
     )
-    to: Optional[str] = Field(
+    to: str | None = Field(
         None,
         description="End time (RFC 3339)",
     )
-    n: Optional[int] = Field(
+    n: int | None = Field(
         None,
         ge=1,
         le=1_095_000,
         description="Number of latest items to retrieve (n)",
     )
-    skip: Optional[int] = Field(
+    skip: int | None = Field(
         None,
         ge=0,
         description="Items to skip (used with n)",
     )
-    fields: Optional[list[str]] = Field(
+    fields: list[str] | None = Field(
         None,
         description="Field names to retrieve (all fields if omitted)",
     )
