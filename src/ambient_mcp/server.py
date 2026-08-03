@@ -2,8 +2,7 @@ import asyncio
 from typing import Literal
 
 import click
-from mcp.server.fastmcp import Context, FastMCP
-from mcp.server.session import ServerSession
+from mcp.server.mcpserver import Context, MCPServer
 
 from ambient_mcp.client import AmbientClient
 from ambient_mcp.models import (
@@ -18,13 +17,13 @@ from ambient_mcp.transformers import (
     extract_field_labels,
 )
 
-mcp = FastMCP("ambient-mcp")
+mcp = MCPServer("ambient-mcp")
 
 
 @mcp.tool(name="get_data")
 async def get_data(
     params: GetDataInput,
-    ctx: Context[ServerSession, None],
+    ctx: Context[None, None],
 ) -> GetDataResult:
     """Retrieve Ambient items by time range or latest count."""
     await ctx.info(f"get_data called with {params}")
@@ -103,6 +102,8 @@ def main(
     host: str,
     port: int,
 ) -> None:
-    mcp.settings.host = host
-    mcp.settings.port = port
-    mcp.run(transport=transport)
+    match transport:
+        case "stdio":
+            mcp.run(transport=transport)
+        case "sse" | "streamable-http":
+            mcp.run(transport=transport, host=host, port=port)

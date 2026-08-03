@@ -1,7 +1,8 @@
-from collections.abc import Generator
+from typing import cast
 
 import pytest
 from click.testing import CliRunner
+from mcp.server.mcpserver import Context
 from pytest_mock import MockFixture
 
 from ambient_mcp.client import ApiResponse
@@ -20,6 +21,10 @@ class DummyContext:
         return None
 
 
+def _dummy_context() -> Context[None, None]:
+    return cast(Context[None, None], DummyContext())
+
+
 @pytest.mark.asyncio
 async def test_get_data_returns_error_output(mocker: MockFixture) -> None:
     params = GetDataInput.model_validate(
@@ -29,7 +34,7 @@ async def test_get_data_returns_error_output(mocker: MockFixture) -> None:
             "n": 1,
         }
     )
-    context = DummyContext()
+    context = _dummy_context()
 
     mocker.patch(
         "ambient_mcp.server.AmbientClient.get_channel_properties",
@@ -60,7 +65,7 @@ async def test_get_data_returns_success_output(mocker: MockFixture) -> None:
             "n": 1,
         }
     )
-    context = DummyContext()
+    context = _dummy_context()
 
     mocker.patch(
         "ambient_mcp.server.AmbientClient.get_channel_properties",
@@ -98,7 +103,7 @@ async def test_get_data_returns_validation_error_on_exception(
             "n": 1,
         }
     )
-    context = DummyContext()
+    context = _dummy_context()
 
     mocker.patch(
         "ambient_mcp.server.AmbientClient.get_channel_properties",
@@ -113,21 +118,11 @@ async def test_get_data_returns_validation_error_on_exception(
 
 
 class TestMain:
-    @pytest.fixture(autouse=True)
-    def _restore_mcp_settings(self) -> Generator[None]:
-        original_host = mcp.settings.host
-        original_port = mcp.settings.port
-        yield
-        mcp.settings.host = original_host
-        mcp.settings.port = original_port
-
     def test_defaults(self, mocker: MockFixture) -> None:
         mock_run = mocker.patch.object(mcp, "run")
         result = CliRunner().invoke(main, [])
         assert result.exit_code == 0
         mock_run.assert_called_once_with(transport="stdio")
-        assert mcp.settings.host == "127.0.0.1"
-        assert mcp.settings.port == 8000
 
     def test_cli_args(self, mocker: MockFixture) -> None:
         mock_run = mocker.patch.object(mcp, "run")
@@ -136,9 +131,9 @@ class TestMain:
             ["--transport", "streamable-http", "--host", "0.0.0.0", "--port", "9000"],
         )
         assert result.exit_code == 0
-        mock_run.assert_called_once_with(transport="streamable-http")
-        assert mcp.settings.host == "0.0.0.0"
-        assert mcp.settings.port == 9000
+        mock_run.assert_called_once_with(
+            transport="streamable-http", host="0.0.0.0", port=9000
+        )
 
     def test_env_vars(self, mocker: MockFixture) -> None:
         mock_run = mocker.patch.object(mcp, "run")
@@ -148,9 +143,7 @@ class TestMain:
             env={"MCP_TRANSPORT": "sse", "MCP_HOST": "0.0.0.0", "MCP_PORT": "9000"},
         )
         assert result.exit_code == 0
-        mock_run.assert_called_once_with(transport="sse")
-        assert mcp.settings.host == "0.0.0.0"
-        assert mcp.settings.port == 9000
+        mock_run.assert_called_once_with(transport="sse", host="0.0.0.0", port=9000)
 
     def test_invalid_transport(self) -> None:
         result = CliRunner().invoke(main, ["--transport", "invalid"])
